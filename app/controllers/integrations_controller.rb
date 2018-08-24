@@ -23,16 +23,20 @@ class IntegrationsController < ApplicationController
       auth_params: params[:file][:auth_params],
     })
 
+    metadata[:source] = integration_name
+
     render :json => {:metadata => metadata}
   end
 
-  def download_file
-    integration_name = params[:source]
+  def download_item
+    metadata = params[:metadata]
+    integration_name = metadata[:source]
     if integration_name == "dropbox"
       integration = DropboxIntegration.new(:authorization => params[:authorization])
     end
 
-    integration.download_file(params[:metadata])
+    body, file_name = integration.download_file(metadata)
+    send_data body, filename: file_name
   end
 
   def oauth_redirect

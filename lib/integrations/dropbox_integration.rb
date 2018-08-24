@@ -1,11 +1,5 @@
 class DropboxIntegration
 
-  # auth = ""
-  # params = {}
-  # params[:file] = {:name => "hello.json", :item => "I made it.", :auth_params => {pw_cost: 100000}}
-  # integration = DropboxIntegration.new(:authorization => auth)
-  # integration.save_item(params[:file])
-
   def initialize(params = {})
     @token = params[:authorization]
   end
@@ -35,8 +29,9 @@ class DropboxIntegration
   end
 
   def download_file(metadata)
-    file, body = dropbox.download("#{params[:file_path]}")
-    send_data body.to_s, filename: file.name
+    file, body = dropbox.download("#{metadata[:file_path]}")
+    # send_data body.to_s, filename: file.name
+    return body.to_s, file.name
   end
 
   private
