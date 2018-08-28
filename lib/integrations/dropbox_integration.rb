@@ -15,7 +15,7 @@ class DropboxIntegration
 
     result = get_access_key(code, redirect_url)
     if result[:error]
-      return result[:error]
+      return {:error => result[:error]}
     else
       return result[:token]
     end
@@ -28,10 +28,17 @@ class DropboxIntegration
     return {:file_path => metadata.path_lower}
   end
 
-  def download_file(metadata)
+  def download_item(metadata)
     file, body = dropbox.download("#{metadata[:file_path]}")
-    # send_data body.to_s, filename: file.name
     return body.to_s, file.name
+  end
+
+  def delete_item(metadata)
+    begin
+      dropbox.delete("#{metadata[:file_path]}")
+    rescue Exception => e
+      puts "Unable to delete Dropbox file because #{e}"
+    end
   end
 
   private

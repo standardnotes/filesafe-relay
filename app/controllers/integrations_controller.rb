@@ -2,51 +2,68 @@ class IntegrationsController < ApplicationController
 
   # http://localhost:3020/integrations/link?integration=dropbox
 
+  before_action {
+    integration_name = get_integration_name_from_params
+    if integration_name
+      if integration_name == "dropbox"
+        @integration = DropboxIntegration.new(:authorization => params[:authorization])
+      elsif integration_name == "google_drive"
+        @integration = GoogleDriveIntegration.new(:authorization => params[:authorization])
+      end
+    end
+  }
+
+  def get_integration_name_from_params
+    if params[:metadata]
+      return params[:metadata][:source]
+    elsif params[:source] || session[:source]
+      return params[:source] || session[:source]
+    end
+  end
+
   def link
     integration_name = params[:source]
     session[:source] = integration_name
-
-    integration = DropboxIntegration.new
-    url = integration.authorization_link(auth_redirect_url)
+    url = @integration.authorization_link(auth_redirect_url)
     redirect_to url
   end
 
   def save_item
-    integration_name = params[:source]
-    if integration_name == "dropbox"
-      integration = DropboxIntegration.new(:authorization => params[:authorization])
-    end
-
-    metadata = integration.save_item({
+    metadata = @integration.save_item({
       name: params[:file][:name],
       item: params[:file][:item],
       auth_params: params[:file][:auth_params],
     })
 
-    metadata[:source] = integration_name
+    metadata[:source] = get_integration_name_from_params()
 
     render :json => {:metadata => metadata}
   end
 
   def download_item
     metadata = params[:metadata]
-    integration_name = metadata[:source]
-    if integration_name == "dropbox"
-      integration = DropboxIntegration.new(:authorization => params[:authorization])
-    end
-
-    body, file_name = integration.download_file(metadata)
+    body, file_name = @integration.download_item(metadata)
     send_data body, filename: file_name
+  end
+
+  def delete_item
+    metadata = params[:metadata]
+    @integration.delete_item(metadata)
   end
 
   def oauth_redirect
     @integration_name = session[:source]
-    if @integration_name == "dropbox"
-      integration = DropboxIntegration.new
-    end
-
-    @authorization = integration.finalize_authorization(params, auth_redirect_url)
-    redirect_to controller: "integrations", action: 'integration_complete', authorization: @authorization, source: @integration_name
+    # begin
+      @authorization = @integration.finalize_authorization(params, auth_redirect_url)
+      if @authorization.is_a?(Hash) && @authorization[:error]
+        @error = @authorization[:error]
+      else
+        redirect_to controller: "integrations", action: 'integration_complete', authorization: @authorization, source: @integration_name
+      end
+    # rescue Exception => e
+    #   @error = e
+    #   puts "Oauth Redirect exception: #{e}"
+    # end
   end
 
   def integration_complete

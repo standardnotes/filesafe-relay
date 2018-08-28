@@ -17,6 +17,8 @@
 !/log/.keep
 !/tmp/.keep
 
+client_secrets.json
+
 /node_modules
 /yarn-error.log
 
