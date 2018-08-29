@@ -53,17 +53,17 @@ class IntegrationsController < ApplicationController
 
   def oauth_redirect
     @integration_name = session[:source]
-    # begin
+    begin
       @authorization = @integration.finalize_authorization(params, auth_redirect_url)
       if @authorization.is_a?(Hash) && @authorization[:error]
         @error = @authorization[:error]
       else
         redirect_to controller: "integrations", action: 'integration_complete', authorization: @authorization, source: @integration_name
       end
-    # rescue Exception => e
-    #   @error = e
-    #   puts "Oauth Redirect exception: #{e}"
-    # end
+    rescue Exception => e
+      @error = e
+      puts "Oauth Redirect exception: #{e}"
+    end
   end
 
   def integration_complete
