@@ -1,13 +1,22 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>FilevaultRelay</title>
+    <title>FileSafe Integrations</title>
     <%= csrf_meta_tags %>
 
-    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application' %>
   </head>
 
-  <body>
-    <%= yield %>
+  <body class="sn-component">
+    <div class="panel">
+      <div class="header">
+        <h2 class="title">Link Integrations</h2>
+      </div>
+
+      <div class="content selectable">
+        <%= yield %>
+      </div>
+    </div>
   </body>
 </html>

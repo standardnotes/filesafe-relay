@@ -75,7 +75,8 @@ class IntegrationsController < ApplicationController
       authorization: @authorization
     }
 
-    @code = Base64.encode64(integration.to_json)
+    # Remove whitespace
+    @code = Base64.encode64(integration.to_json).gsub(/[[:space:]]/, '')
   end
 
   private

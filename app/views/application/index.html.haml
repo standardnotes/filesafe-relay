@@ -1,4 +1,7 @@
-%h2 Link Integrations
+.panel-section
+  .button-group
+    %a.button.info{"href" => "#{@dropbox_link}", "target" => "_blank"}
+      .label Dropbox
 
-%a{"href" => "#{@dropbox_link}", "target" => "_blank"} Dropbox
-%a{"href" => "#{@google_drive_link}", "target" => "_blank"} Google Drive
+    %a.button.success{"href" => "#{@google_drive_link}", "target" => "_blank"}
+      .label Google Drive

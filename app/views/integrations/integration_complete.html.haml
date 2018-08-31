@@ -1,4 +1,9 @@
-Your #{@integration_name} has been completed. Please copy the following code and paste it back into the Standard Notes FileSafe app extension.
-
-%h2 Code:
-%p #{@code}
+.panel-section
+  .panel-row Your #{@integration_name || "integration"} is complete. Please copy the following code and paste it back into the Standard Notes FileSafe extension.
+  .panel-row
+  %h2.title.panel-row Integration Code
+  .notification.info.dashed
+    #activation-code.text.center-text.select-all.info.wrap
+      #{@code}
+  #activation-code-button.button.info
+    .label Copy Code
