@@ -10,7 +10,7 @@
 // Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
 // about supported directives.
 //
-//= require_tree .
+
 
 document.addEventListener("DOMContentLoaded", function(event) {
 
@@ -37,13 +37,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
   }
 
   var button = document.querySelector("#activation-code-button");
-  if(button) {
-    button.onclick = function() {
-      var codeElement = document.querySelector("#activation-code");
-      var code = codeElement.innerHTML.trim();
-      console.log(code);
-      copyToClipboard(code);
-      button.querySelector(".label").innerHTML = "Copied"
-    }
+  button.onclick = function() {
+    var codeElement = document.querySelector("#activation-code");
+    var code = codeElement.innerHTML.trim();
+    console.log(code);
+    copyToClipboard(code);
+    button.querySelector(".label").innerHTML = "Copied"
   }
 });
