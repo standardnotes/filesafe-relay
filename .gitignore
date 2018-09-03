@@ -23,4 +23,8 @@ client_secrets.json
 /yarn-error.log
 
 .byebug_history
+
+.ssh
 .env
+/config/cap.yml
+.DS_Store

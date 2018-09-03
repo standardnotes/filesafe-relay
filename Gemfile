@@ -15,11 +15,7 @@ gem 'puma', '~> 3.7'
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
-
-gem "google-api-client"
-
 gem 'rack-cors', :require => 'rack/cors'
-
 gem 'haml-rails'
 
 gem 'dotenv-rails'
@@ -27,6 +23,7 @@ gem 'dotenv-rails'
 # gem 'therubyracer', platforms: :ruby
 
 gem "dropbox-sdk-v2"
+gem "google-api-client"
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
@@ -46,6 +43,14 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
+
+  gem 'capistrano'
+  gem 'capistrano-bundler'
+  gem 'capistrano-passenger', '>= 0.2.0'
+  gem 'capistrano-rails'
+  gem 'capistrano-rvm'
+  gem 'capistrano-sidekiq'
+  gem 'capistrano-git-submodule-strategy', '~> 0.1.22'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
