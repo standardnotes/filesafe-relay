@@ -18,6 +18,8 @@ gem 'uglifier', '>= 1.3.0'
 gem 'rack-cors', :require => 'rack/cors'
 gem 'haml-rails'
 
+gem "non-stupid-digest-assets"
+
 gem 'dotenv-rails'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby

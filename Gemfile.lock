@@ -170,6 +170,8 @@ GEM
     nio4r (2.3.1)
     nokogiri (1.8.2)
       mini_portile2 (~> 2.3.0)
+    non-stupid-digest-assets (1.0.9)
+      sprockets (>= 2.0)
     os (0.9.6)
     public_suffix (3.0.2)
     puma (3.11.4)
@@ -297,6 +299,7 @@ DEPENDENCIES
   google-api-client
   haml-rails
   listen (>= 3.0.5, < 3.2)
+  non-stupid-digest-assets
   puma (~> 3.7)
   rack-cors
   rails (~> 5.1.5)
