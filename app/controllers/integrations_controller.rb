@@ -72,7 +72,8 @@ class IntegrationsController < ApplicationController
 
     integration = {
       source: @source,
-      authorization: @authorization
+      authorization: @authorization,
+      relayUrl: ENV['HOST']
     }
 
     # Remove whitespace
