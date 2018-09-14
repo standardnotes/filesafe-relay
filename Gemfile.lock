@@ -81,6 +81,7 @@ GEM
     concurrent-ruby (1.0.5)
     connection_pool (2.2.2)
     crass (1.0.4)
+    curb (0.9.6)
     declarative (0.0.10)
     declarative-option (0.1.0)
     domain_name (0.5.20170404)
@@ -167,6 +168,8 @@ GEM
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
     net-ssh (5.0.2)
+    net_dav (0.5.1)
+      nokogiri
     nio4r (2.3.1)
     nokogiri (1.8.2)
       mini_portile2 (~> 2.3.0)
@@ -294,11 +297,13 @@ DEPENDENCIES
   capistrano-rvm
   capistrano-sidekiq
   capybara (~> 2.13)
+  curb
   dotenv-rails
   dropbox-sdk-v2
   google-api-client
   haml-rails
   listen (>= 3.0.5, < 3.2)
+  net_dav
   non-stupid-digest-assets
   puma (~> 3.7)
   rack-cors

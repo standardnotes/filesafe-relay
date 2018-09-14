@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   def index
     @dropbox_link = "/integrations/link?source=dropbox"
     @google_drive_link = "/integrations/link?source=google_drive"
+    @webdav_link = "/integrations/link?source=webdav"
   end
 
 end

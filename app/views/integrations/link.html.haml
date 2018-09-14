@@ -1,0 +1,8 @@
+.panel-section
+  = form_tag({controller: "integrations", :action => "submit_form"}, :method => "post") do
+    = text_field_tag :server, nil, :placeholder => "Server"
+    = text_field_tag :username, nil, :placeholder => "Username"
+    = text_field_tag :password, nil, :placeholder => "Password"
+    = text_field_tag :dir, nil, :placeholder => "Directory (optional; make sure exists. i.e 'FileSafe/files')"
+
+    = submit_tag "Submit"

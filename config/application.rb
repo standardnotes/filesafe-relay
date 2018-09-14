@@ -10,8 +10,8 @@ module FilevaultRelay
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 5.1
-    
-    config.autoload_paths += Dir["#{config.root}/lib/**/*"]
+
+    config.autoload_paths += Dir["#{config.root}/app/lib/**/*"]
 
     # Cross-Origin Resource Sharing (CORS) for Rack compatible web applications.
     config.middleware.insert_before 0, Rack::Cors do

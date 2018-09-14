@@ -7,6 +7,10 @@ class GoogleDriveIntegration
     @token = params[:authorization]
   end
 
+  def type
+    return "oauth"
+  end
+
   def authorization_link(redirect_url)
     client_secrets = Google::APIClient::ClientSecrets.load
     _auth_client = client_secrets.to_authorization

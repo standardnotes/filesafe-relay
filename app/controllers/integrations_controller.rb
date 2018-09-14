@@ -9,6 +9,8 @@ class IntegrationsController < ApplicationController
         @integration = DropboxIntegration.new(:authorization => params[:authorization])
       elsif integration_name == "google_drive"
         @integration = GoogleDriveIntegration.new(:authorization => params[:authorization])
+      elsif integration_name == "webdav"
+        @integration = WebdavIntegration.new(:authorization => params[:authorization])
       end
     end
   }
@@ -24,8 +26,25 @@ class IntegrationsController < ApplicationController
   def link
     integration_name = params[:source]
     session[:source] = integration_name
-    url = @integration.authorization_link(auth_redirect_url)
-    redirect_to url
+    if @integration.type == "oauth"
+      url = @integration.authorization_link(auth_redirect_url)
+      redirect_to url
+    else
+      # form will be presented as default in link.html
+    end
+  end
+
+  def submit_form
+    auth_params = {
+      server: params[:server],
+      username: params[:username],
+      password: params[:password],
+      dir: params[:dir]
+    }
+
+    @code = Base64.encode64(auth_params.to_json)
+
+    redirect_to controller: 'integrations', action: 'integration_complete', authorization: @code, source: "webdav"
   end
 
   def save_item

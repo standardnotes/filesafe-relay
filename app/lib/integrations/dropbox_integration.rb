@@ -4,6 +4,10 @@ class DropboxIntegration
     @token = params[:authorization]
   end
 
+  def type
+    return "oauth"
+  end
+
   def authorization_link(redirect_url)
     endpoint = "https://www.dropbox.com/1/oauth2/authorize"
     params = "client_id=#{ENV["DROPBOX_CLIENT_ID"]}&response_type=code&redirect_uri=" + redirect_url
