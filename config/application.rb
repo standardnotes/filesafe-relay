@@ -13,6 +13,10 @@ module FilevaultRelay
 
     config.autoload_paths += Dir["#{config.root}/app/lib/**/*"]
 
+    Raven.configure do |config|
+      config.dsn = ENV['SENTRY_URL']
+    end
+
     # Cross-Origin Resource Sharing (CORS) for Rack compatible web applications.
     config.middleware.insert_before 0, Rack::Cors do
       allow do

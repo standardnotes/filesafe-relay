@@ -235,6 +235,8 @@ GEM
     selenium-webdriver (3.12.0)
       childprocess (~> 0.5)
       rubyzip (~> 1.2)
+    sentry-raven (2.7.2)
+      faraday (>= 0.7.6, < 1.0)
     sexp_processor (4.11.0)
     sidekiq (5.2.1)
       connection_pool (~> 2.2, >= 2.2.2)
@@ -310,6 +312,7 @@ DEPENDENCIES
   rails (~> 5.1.5)
   sass-rails (~> 5.0)
   selenium-webdriver
+  sentry-raven
   spring
   spring-watcher-listen (~> 2.0.0)
   sqlite3
