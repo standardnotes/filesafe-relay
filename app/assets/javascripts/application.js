@@ -41,7 +41,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
     button.onclick = function() {
       var codeElement = document.querySelector("#activation-code");
       var code = codeElement.innerHTML.trim();
-      console.log(code);
       copyToClipboard(code);
       button.querySelector(".label").innerHTML = "Copied"
     }
