@@ -1,9 +1,12 @@
-.panel-section
-  .panel-row Your #{@integration_name || "integration"} is complete. Please copy the following code and paste it back into the Standard Notes FileSafe extension.
-  .panel-row
-  %h2.title.panel-row Integration Code
-  .notification.info.dashed
-    #activation-code.text.center-text.select-all.info.wrap
+.sk-panel-section
+  .sk-panel-row
+    .sk-panel-column
+      Your #{@integration_name || "integration"} is complete.
+      Copy the code below, and return to <strong>Standard Notes</strong> to paste the code into the FileSafe extension.
+  .sk-panel-row
+  %h2.title.sk-panel-row Integration Code
+  .sk-notification.info.dashed
+    #activation-code.center-text.select-all.wrap.info-contrast
       #{@code}
-  #activation-code-button.button.info
-    .label Copy Code
+  #activation-code-button.sk-button.info
+    .sk-label Copy Code

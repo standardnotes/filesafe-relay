@@ -16,11 +16,15 @@
 
 @import "sn-stylekit/dist/stylekit.css";
 
-.notification {
+.sk-notification {
   margin-top: 0.5rem !important;
 }
 
 a:hover {
+  text-decoration: underline !important;
+}
+
+a, a.sk-button:hover {
   text-decoration: none !important;
 }
 
@@ -30,18 +34,7 @@ a:hover {
 
 #activation-code {
   user-select: text !important;
-  resize: none;
-  background-color: transparent;
-  border: none;
-  width: 100%;
-  padding: 10px;
-  display: contents;
-
-  text-align: center;
   margin: 10px;
-
-  outline: 0;
-  overflow: scroll;
 
   -webkit-user-select: none;
   -webkit-touch-callout: none;

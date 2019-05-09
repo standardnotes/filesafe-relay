@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
       var codeElement = document.querySelector("#activation-code");
       var code = codeElement.innerHTML.trim();
       copyToClipboard(code);
-      button.querySelector(".label").innerHTML = "Copied"
+      button.querySelector(".sk-label").innerHTML = "Copied"
     }
   }
 });
