@@ -14,7 +14,7 @@
  *= require_self
  */
 
-@import "sn-stylekit/dist/stylekit.css";
+@import "stylekit.css";
 
 .sk-notification {
   margin-top: 0.5rem !important;
