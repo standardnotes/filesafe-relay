@@ -35,6 +35,7 @@ gem 'dotenv-rails'
 
 gem "dropbox-sdk-v2"
 gem "google-api-client"
+gem 'aws-sdk-s3', '~> 1'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development

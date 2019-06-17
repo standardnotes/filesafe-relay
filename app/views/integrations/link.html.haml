@@ -1,9 +1,0 @@
-.sk-panel-section
-  .sk-panel-form
-  = form_tag({controller: "integrations", :action => "submit_form"}, :method => "post") do
-    = text_field_tag :server, nil, :placeholder => "Server", :class => "sk-input contrast"
-    = text_field_tag :username, nil, :placeholder => "Username", :class => "sk-input contrast"
-    = password_field_tag :password, nil, :placeholder => "Password", :class => "sk-input contrast"
-    = text_field_tag :dir, nil, :placeholder => "Directory (optional; make sure exists. i.e 'FileSafe/files')", :class => "sk-input contrast"
-    .sk-panel-row
-    = submit_tag "Submit", :class => "sk-button info "

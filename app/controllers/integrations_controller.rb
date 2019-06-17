@@ -1,6 +1,5 @@
 class IntegrationsController < ApplicationController
-
-  # http://localhost:3020/integrations/link?integration=dropbox
+  # http://localhost:3020/integrations/link?source=dropbox
 
   before_action {
     integration_name = get_integration_name_from_params
@@ -11,6 +10,8 @@ class IntegrationsController < ApplicationController
         @integration = GoogleDriveIntegration.new(:authorization => params[:authorization])
       elsif integration_name == "webdav"
         @integration = WebdavIntegration.new(:authorization => params[:authorization])
+      elsif integration_name === "AWS_S3"
+        @integration = AwsS3Integration.new(:authorization => params[:authorization])
       end
     end
   }
@@ -29,22 +30,15 @@ class IntegrationsController < ApplicationController
     if @integration.type == "oauth"
       url = @integration.authorization_link(auth_redirect_url)
       redirect_to url
-    else
-      # form will be presented as default in link.html
+    elsif @integration.type == "form"
+      render action: "form_#{integration_name.downcase}"
     end
   end
 
   def submit_form
-    auth_params = {
-      server: params[:server],
-      username: params[:username],
-      password: params[:password],
-      dir: params[:dir]
-    }
+    @code = Base64.encode64(params[:auth_data].to_json)
 
-    @code = Base64.encode64(auth_params.to_json)
-
-    redirect_to controller: 'integrations', action: 'integration_complete', authorization: @code, source: "webdav"
+    redirect_to controller: 'integrations', action: 'integration_complete', authorization: @code, source: get_integration_name_from_params
   end
 
   def save_item
