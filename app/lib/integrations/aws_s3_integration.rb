@@ -4,11 +4,6 @@ class AwsS3Integration
   def initialize(params = {})
     if params[:authorization]
       @auth_params = JSON.parse(Base64.decode64(params[:authorization]))
-
-      Aws.config.update({
-        region: @auth_params["region"],
-        credentials: Aws::Credentials.new(@auth_params["key"], @auth_params["secret"])
-      })
     end
   end
 
@@ -39,7 +34,10 @@ class AwsS3Integration
 
   def bucket
     @bucket ||= begin
-      s3 = Aws::S3::Resource.new
+      s3 = Aws::S3::Resource.new({
+        region: @auth_params["region"],
+        credentials: Aws::Credentials.new(@auth_params["key"], @auth_params["secret"])
+      })
       s3.bucket(@auth_params["bucket"])
     end
   end
