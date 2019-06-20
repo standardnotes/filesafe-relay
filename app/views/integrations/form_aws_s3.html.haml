@@ -1,10 +1,15 @@
 .sk-panel-section
   .sk-panel-form
-  = form_tag({controller: "integrations", :action => "submit_form"}, :method => "post") do
-    = fields_for :auth_data do |ad|
-      = ad.text_field :region, :placeholder => "Region", :required => true, :class => "sk-input contrast"
-      = ad.text_field :bucket, :placeholder => "S3 Bucket", :required => true, :class => "sk-input contrast"
-      = ad.text_field :key, :placeholder => "Access Key ID", :required => true, :class => "sk-input contrast"
-      = ad.password_field :secret, :placeholder => "Access Key Secret", :required => true, :class => "sk-input contrast"
-    .sk-panel-row
-    = submit_tag "Submit", :class => "sk-button info "
+    = form_tag({controller: "integrations", :action => "submit_form"}, :method => "post") do
+      = fields_for :auth_data do |ad|
+        = ad.text_field :region, :placeholder => "Region", :required => true, :class => "sk-input contrast"
+        = ad.text_field :bucket, :placeholder => "S3 Bucket", :required => true, :class => "sk-input contrast"
+        = ad.text_field :key, :placeholder => "Access Key ID", :required => true, :class => "sk-input contrast"
+        = ad.password_field :secret, :placeholder => "Access Key Secret", :required => true, :class => "sk-input contrast"
+      .sk-panel-row
+      = submit_tag "Submit", :class => "sk-button info "
+  .sk-panel-row
+    %h4
+      Guide:
+      %a{"href" => "https://github.com/standardnotes/docs/wiki/How-to-configure-Amazon-S3-with-Standard-Notes-FileSafe", "target" => "_blank"}
+        How to configure Amazon S3 with Standard Notes FileSafe →
