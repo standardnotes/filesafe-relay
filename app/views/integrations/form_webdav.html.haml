@@ -1,0 +1,10 @@
+.sk-panel-section
+  .sk-panel-form
+  = form_tag({controller: "integrations", :action => "submit_form"}, :method => "post") do
+    = fields_for :auth_data do |ad|
+      = ad.text_field :server, :placeholder => "Server", :required => true, :class => "sk-input contrast"
+      = ad.text_field :username, :placeholder => "Username", :required => true, :class => "sk-input contrast"
+      = ad.password_field :password, :placeholder => "Password", :required => true, :class => "sk-input contrast"
+      = ad.text_field :dir, :placeholder => "Directory (optional; make sure exists. i.e 'FileSafe/files')", :class => "sk-input contrast"
+    .sk-panel-row
+    = submit_tag "Submit", :class => "sk-button info "
