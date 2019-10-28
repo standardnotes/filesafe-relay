@@ -22,23 +22,39 @@ class WebdavIntegration
     end
 
     file_path = URI::encode(file_path)
-    self.dav.put_string(file_path, JSON.pretty_generate(payload.as_json))
 
-    return {:file_path => file_path}
+    begin
+      self.dav.put_string(file_path, JSON.pretty_generate(payload.as_json))
+    rescue Exception => e
+      @error_msg = e.message
+    end
+
+    return {:file_path => file_path, :error_message => @error_msg}
   end
 
   def download_item(metadata = {})
     body = nil, filename = nil
-    self.dav.find(metadata[:file_path]) do |item|
-      body = item.content
-      filename = metadata[:file_path]
+
+    begin
+      self.dav.find(metadata[:file_path]) do |item|
+        body = item.content
+        filename = metadata[:file_path]
+      end
+    rescue Exception => e
+      @error_msg = e.message
     end
 
-    return body, filename
+    return body, filename, @error_msg
   end
 
   def delete_item(metadata)
-    self.dav.delete(metadata[:file_path])
+    begin
+      self.dav.delete(metadata[:file_path])
+    rescue Exception => e
+      @error_msg = e.message
+    end
+
+    return @error_msg
   end
 
   def dav

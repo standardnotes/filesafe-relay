@@ -50,18 +50,36 @@ class IntegrationsController < ApplicationController
 
     metadata[:source] = get_integration_name_from_params()
 
+    if !metadata[:error_message].nil?
+      response = {:error => {:message => metadata[:error_message]}}
+      render :json => response, :status => :bad_request and return
+    end
+
     render :json => {:metadata => metadata}
   end
 
   def download_item
     metadata = params[:metadata]
-    body, file_name = @integration.download_item(metadata)
+    body, file_name, error_message = @integration.download_item(metadata)
+
+    if !error_message.nil?
+      response = {:error => {:message => error_message}}
+      render :json => response, :status => :bad_request and return
+    end
+
     send_data body, filename: file_name
   end
 
   def delete_item
     metadata = params[:metadata]
-    @integration.delete_item(metadata)
+    error_message = @integration.delete_item(metadata)
+
+    if !error_message.nil?
+      response = {:error => {:message => error_message}}
+      render :json => response, :status => :bad_request and return
+    end
+
+    head :no_content
   end
 
   def oauth_redirect

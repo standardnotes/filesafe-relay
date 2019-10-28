@@ -28,13 +28,31 @@ class DropboxIntegration
   def save_item(params)
     payload = { "items" => [params[:item]] }
     payload["auth_params"] = params[:auth_params]
-    metadata = dropbox.upload("/#{params[:name]}", "#{JSON.pretty_generate(payload.as_json)}", {:mode => "overwrite"})
-    return {:file_path => metadata.path_lower}
+
+    file_path = nil
+
+    begin
+      metadata = dropbox.upload("/#{params[:name]}", "#{JSON.pretty_generate(payload.as_json)}", {:mode => "overwrite"})
+      file_path = metadata.path_lower
+    rescue Exception => e
+      @error_msg = e.message
+    end
+
+    return {:file_path => file_path, :error_message => @error_msg}
   end
 
   def download_item(metadata)
-    file, body = dropbox.download("#{metadata[:file_path]}")
-    return body.to_s, file.name
+    body = nil, file = nil
+
+    begin
+      file_metadata, response_body = dropbox.download("#{metadata[:file_path]}")
+      file = file_metadata.name
+      body = response_body.to_s
+    rescue Exception => e
+      @error_msg = e.message
+    end
+    
+    return body, file, @error_msg
   end
 
   def delete_item(metadata)
@@ -42,7 +60,10 @@ class DropboxIntegration
       dropbox.delete("#{metadata[:file_path]}")
     rescue Exception => e
       puts "Unable to delete Dropbox file because #{e}"
+      @error_msg = e.message
     end
+
+    return @error_msg
   end
 
   private

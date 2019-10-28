@@ -74,28 +74,37 @@ class GoogleDriveIntegration
     payload = { "items" => [params[:item]] }
     payload["auth_params"] = params[:auth_params]
 
-    tmp = Tempfile.new(SecureRandom.hex)
-    tmp.write("#{JSON.pretty_generate(payload.as_json)}")
-    tmp.rewind
+    begin
+      tmp = Tempfile.new(SecureRandom.hex)
+      tmp.write("#{JSON.pretty_generate(payload.as_json)}")
+      tmp.rewind
 
-    folder = find_or_create_folder("FileSafe")
+      folder = find_or_create_folder("FileSafe")
 
-    file = drive.create_file({:name => params[:name], :parents => [folder.id]}, upload_source: tmp.path, content_type: "application/json")
+      file = drive.create_file({:name => params[:name], :parents => [folder.id]}, upload_source: tmp.path, content_type: "application/json")
+      puts "Saved file to GD: #{file}"
+    rescue Exception => e
+      @error_msg = e.message
+    end
 
-    puts "Saved file to GD: #{file}"
-
-    return {:file_id => file.id}
+    return {:file_id => file.id, :error_message => @error_msg}
   end
 
   def download_item(metadata)
     file_id = metadata[:file_id]
     path = "/tmp/gdrive-tmp-#{file_id}"
-    # Actually downloda file
-    drive.get_file("#{file_id}", download_dest: path)
-    body = File.read(path)
-    # Get metadata
-    file = drive.get_file("#{file_id}")
-    return body, file.name
+
+    begin
+      # Actually download file
+      drive.get_file("#{file_id}", download_dest: path)
+      body = File.read(path)
+      # Get metadata
+      file = drive.get_file("#{file_id}")
+    rescue Exception => e
+      @error_msg = e.message
+    end
+
+    return body, file.name, @error_msg
   end
 
   def delete_item(metadata)
@@ -104,7 +113,10 @@ class GoogleDriveIntegration
       drive.delete_file("#{file_id}")
     rescue Exception => e
       puts "Unable to delete Google Drive file because #{e}"
+      @error_msg = e.message
     end
+
+    return @error_msg
   end
 
   private
