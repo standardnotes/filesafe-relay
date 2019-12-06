@@ -186,7 +186,7 @@ GEM
       sprockets (>= 2.0)
     os (1.0.1)
     public_suffix (3.1.0)
-    puma (3.12.1)
+    puma (3.12.2)
     rack (2.0.7)
     rack-cors (1.0.3)
     rack-protection (2.0.5)
@@ -318,7 +318,7 @@ DEPENDENCIES
   listen (>= 3.0.5, < 3.2)
   net_dav
   non-stupid-digest-assets
-  puma (~> 3.7)
+  puma (~> 3.12)
   rack-cors
   rails (~> 5.1.5)
   sass-rails (~> 5.0)
