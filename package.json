@@ -2,7 +2,7 @@
   "name": "filevault-relay",
   "private": true,
   "dependencies": {
-    "sn-stylekit": "2.0.14"
+    "sn-stylekit": "2.0.22"
   },
   "description": "This README would normally document whatever steps are necessary to get the application up and running.",
   "version": "1.0.0",
