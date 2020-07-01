@@ -54,3 +54,16 @@ jobs:
       with:
         tagName: ${{ github.sha }}
         environment: prod
+
+  notify_slack:
+    needs: deploy
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Notify slack
+      uses: pullreminders/slack-action@master
+      env:
+        SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+      with:
+        args: '{ \"channel\": \"${{ secrets.SLACK_NOTIFICATION_CHANNEL }}\", \"blocks\": [{\"type\": \"section\", \"text\": {\"type\": \"mrkdwn\", \"text\": \"Successfully deployed <https://filesafe-relay-prod.standardnotes.org|[PROD] FileSafe Relay>\"}}, {\"type\": \"section\", \"text\": {\"type\": \"mrkdwn\", \"text\": \"Changes: <https://github.com/standardnotes/filesafe-relay/commit/${{ github.sha }}|${{ github.sha }}>\"}, \"accessory\": {\"type\": \"image\", \"image_url\": \"https://website-dev.standardnotes.org/assets/icon.png\", \"alt_text\": \"Standard Notes\"}}, { \"type\": \"section\", \"fields\": [{\"type\": \"mrkdwn\", \"text\": \"<https://github.com/standardnotes/filesafe-relay/actions/runs/${{ github.run_id }}|Build details>\"}]}]}'

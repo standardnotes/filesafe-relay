@@ -44,7 +44,7 @@ jobs:
         task-definition: ${{ steps.task-def.outputs.task-definition }}
         service: filesafe-relay-dev
         cluster: dev
-        wait-for-service-stability: false
+        wait-for-service-stability: true
     - name: Create a Sentry.io release
       uses: tclindner/sentry-releases-action@v1.2.0
       env:
@@ -54,3 +54,16 @@ jobs:
       with:
         tagName: ${{ github.sha }}
         environment: dev
+
+  notify_slack:
+    needs: deploy
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Notify slack
+      uses: pullreminders/slack-action@master
+      env:
+        SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+      with:
+        args: '{ \"channel\": \"${{ secrets.SLACK_NOTIFICATION_CHANNEL }}\", \"blocks\": [{\"type\": \"section\", \"text\": {\"type\": \"mrkdwn\", \"text\": \"Successfully deployed <https://filesafe-relay-dev.standardnotes.org|[DEV] FileSafe Relay>\"}}, {\"type\": \"section\", \"text\": {\"type\": \"mrkdwn\", \"text\": \"Changes: <https://github.com/standardnotes/filesafe-relay/commit/${{ github.sha }}|${{ github.sha }}>\"}, \"accessory\": {\"type\": \"image\", \"image_url\": \"https://website-dev.standardnotes.org/assets/icon.png\", \"alt_text\": \"Standard Notes\"}}, { \"type\": \"section\", \"fields\": [{\"type\": \"mrkdwn\", \"text\": \"<https://github.com/standardnotes/filesafe-relay/actions/runs/${{ github.run_id }}|Build details>\"}]}]}'
