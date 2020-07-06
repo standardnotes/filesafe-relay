@@ -1,4 +1,6 @@
-# FileSafe Relay
+# Filesafe Relay
+
+This is the server component that is part of the larger Filesafe system. It deals with relaying files to the proper 3rd party storage provider, such as Dropbox, Google Drive, etc.
 
 This is the server component that is part of the larger FileSafe system. It deals with relaying files to the proper 3rd party storage provider, such as Dropbox, Google Drive, WebDAV, or AWS S3.
 
@@ -16,7 +18,7 @@ As an alternative you can set the `GOOGLE_CLIENT_SECRETS` environment variable i
 
 ### Docker
 
-In order to run the relay server locally type the following commands:
+In order to run the relay server locally, type the following commands:
 
 ```
 cp .env.sample .env
