@@ -10,11 +10,11 @@ Rails.application.configure do
   # Rake tasks automatically ignore this option for performance.
   config.eager_load = true
 
+  MAX_LOG_MEGABYTES = 50
+  config.logger = ActiveSupport::Logger.new(config.paths['log'].first, 1, MAX_LOG_MEGABYTES * 1024 * 1024)
+
   if ENV["RAILS_LOG_TO_STDOUT"].present?
     config.logger = ActiveSupport::Logger.new(STDOUT)
-  else
-    MAX_LOG_MEGABYTES = 50
-    config.logger = ActiveSupport::Logger.new(config.paths['log'].first, 1, MAX_LOG_MEGABYTES * 1024 * 1024)
   end
 
   # Full error reports are disabled and caching is turned on.
@@ -79,9 +79,6 @@ Rails.application.configure do
 
   # Send deprecation notices to registered listeners.
   config.active_support.deprecation = :notify
-
-  # Use default logging formatter so that PID and timestamp are not suppressed.
-  config.log_formatter = ::Logger::Formatter.new
 
   # Use a different logger for distributed setups.
   # require 'syslog/logger'

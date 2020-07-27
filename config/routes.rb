@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   post "integrations/download-item" => "integrations#download_item"
   post "integrations/delete-item" => "integrations#delete_item"
 
-  root "application#index"
+  get '*unmatched_route', to: 'application#route_not_found'
 
+  root "application#index"
 end
