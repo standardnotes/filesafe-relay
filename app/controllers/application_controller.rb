@@ -1,8 +1,6 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :null_session
 
-  before_action :set_raven_context
-
   def index
     @dropbox_link = "/integrations/link?source=dropbox"
     @google_drive_link = "/integrations/link?source=google_drive"
@@ -15,10 +13,6 @@ class ApplicationController < ActionController::Base
   end
 
   private
-
-  def set_raven_context
-    Raven.extra_context(params: params.to_unsafe_h, url: request.url)
-  end
 
   def append_info_to_payload(payload)
     super

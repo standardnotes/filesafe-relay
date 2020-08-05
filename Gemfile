@@ -14,8 +14,6 @@ gem 'sqlite3'
 gem 'net_dav'
 gem 'curb'
 
-gem "sentry-raven"
-
 # Use Puma as the app server
 gem 'puma', '~> 3.12'
 
