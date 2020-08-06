@@ -36,7 +36,7 @@ class GoogleDriveIntegration
       auth_client.fetch_access_token!
       secret_hash = auth_client.as_json.slice("expiry", "refresh_token", "access_token")
       if secret_hash["refresh_token"] == nil
-        return {:error => {:message => 'You have already authorized this application. In order to re-configure, go to <a href="https://myaccount.google.com/permissions">https://myaccount.google.com/permissions</a> and revoke access to "Standard Notes".'}}
+        return {:error => {:message => 'You have already authorized this application. In order to re-configure, go to <a href="https://myaccount.google.com/permissions">https://myaccount.google.com/permissions</a> and remove access to "Standard Notes".'}}
       else
         secret_hash[:expires_at] = auth_client.expires_at
         secret_base64 = Base64.encode64(secret_hash.to_json)
