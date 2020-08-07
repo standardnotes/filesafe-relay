@@ -58,7 +58,7 @@ class IntegrationsController < ApplicationController
           message: 'Could not save item. Please verify your integration.'
         }
       },
-      status: 400
+      status: :bad_request
     )
   end
 
@@ -73,7 +73,7 @@ class IntegrationsController < ApplicationController
           message: 'Could not retrieve item. Please verify your integration.'
         }
       },
-      status: 400
+      status: :bad_request
     )
   end
 
@@ -87,7 +87,7 @@ class IntegrationsController < ApplicationController
           message: 'Could not delete item. Please verify your integration.'
         }
       },
-      status: 400
+      status: :bad_request
     )
   end
 
