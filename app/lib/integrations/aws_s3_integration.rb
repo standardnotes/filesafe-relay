@@ -15,13 +15,28 @@ class AwsS3Integration
     payload = { "items" => [params[:item]] }
     payload["auth_params"] = params[:auth_params]
     obj_key = "FileSafe/#{params[:name]}"
-    bucket.object(obj_key).put(body: JSON.pretty_generate(payload.as_json))
-    return {:obj_key => obj_key}
+    
+    begin
+      bucket.object(obj_key).put(body: JSON.pretty_generate(payload.as_json))
+    rescue Exception => e
+      @error_msg = e.message
+    end
+
+    return {:obj_key => obj_key, :error_message => @error_msg}
   end
 
   def download_item(metadata = {})
-    file = bucket.object(metadata[:obj_key]).get
-    return file.body.string, metadata[:obj_key]
+    body = nil, obj_key = nil
+
+    begin
+      file = bucket.object(metadata[:obj_key]).get
+      body = file.body.string
+      obj_key = metadata[:obj_key]
+    rescue Exception => e
+      @error_msg = e.message
+    end
+
+    return body, obj_key, @error_msg
   end
 
   def delete_item(metadata)
@@ -29,7 +44,10 @@ class AwsS3Integration
       bucket.object(metadata[:obj_key]).delete
     rescue Exception => e
       puts "Unable to delete AWS S3 file because #{e}"
+      @error_msg = e.message
     end
+
+    return @error_msg
   end
 
   def bucket
