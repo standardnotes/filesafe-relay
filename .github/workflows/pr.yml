@@ -16,7 +16,7 @@ jobs:
       with:
         ruby-version: 2.5
     - name: Copy default configuration
-      run: cp env.sample .env
+      run: cp .env.sample .env
     - name: Install dependencies
       run: bundle install
     - name: Run tests
