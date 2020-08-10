@@ -51,17 +51,44 @@ class IntegrationsController < ApplicationController
     metadata[:source] = get_integration_name_from_params()
 
     render :json => {:metadata => metadata}
+  rescue StandardError => _e
+    render(
+      json: {
+        error: {
+          message: 'Could not save item. Please verify your integration.'
+        }
+      },
+      status: :bad_request
+    )
   end
 
   def download_item
     metadata = params[:metadata]
     body, file_name = @integration.download_item(metadata)
     send_data body, filename: file_name
+  rescue StandardError => _e
+    render(
+      json: {
+        error: {
+          message: 'Could not retrieve item. Please verify your integration.'
+        }
+      },
+      status: :bad_request
+    )
   end
 
   def delete_item
     metadata = params[:metadata]
     @integration.delete_item(metadata)
+  rescue StandardError => _e
+    render(
+      json: {
+        error: {
+          message: 'Could not delete item. Please verify your integration.'
+        }
+      },
+      status: :bad_request
+    )
   end
 
   def oauth_redirect
@@ -98,5 +125,4 @@ class IntegrationsController < ApplicationController
   def auth_redirect_url
     "#{ENV['HOST']}/integrations/oauth-redirect"
   end
-
 end
