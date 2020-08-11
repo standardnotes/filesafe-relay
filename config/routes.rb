@@ -10,6 +10,8 @@ Rails.application.routes.draw do
   post "integrations/download-item" => "integrations#download_item"
   post "integrations/delete-item" => "integrations#delete_item"
 
+  get "/healthcheck" => "health_check#index"
+
   get '*unmatched_route', to: 'application#route_not_found'
 
   root "application#index"
