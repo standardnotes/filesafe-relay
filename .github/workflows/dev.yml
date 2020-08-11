@@ -5,7 +5,27 @@ on:
     branches: [ develop ]
 
 jobs:
+  test:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: 2.6
+    - name: Install libcurl
+      run: sudo apt-get install libcurl4-openssl-dev
+    - name: Copy default configuration
+      run: cp .env.sample .env
+    - name: Install dependencies
+      run: bundle install
+    - name: Run tests
+      run: bundle exec rspec
+
   deploy:
+    needs: test
 
     runs-on: ubuntu-latest
 

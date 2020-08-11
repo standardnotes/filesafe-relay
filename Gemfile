@@ -70,3 +70,5 @@ gem "dogstatsd-ruby", "~> 4.8"
 gem "ddtrace", "~> 0.38.0"
 
 gem "lograge", "~> 0.11.2"
+
+gem "rspec-rails", "~> 4.0"
