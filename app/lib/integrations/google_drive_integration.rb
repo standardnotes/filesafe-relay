@@ -42,7 +42,7 @@ class GoogleDriveIntegration
         secret_base64 = Base64.encode64(secret_hash.to_json)
         return secret_base64
       end
-    rescue Exception => e
+    rescue StandardError => e
       return {:error => {:message => e.message}}
     end
   end
@@ -52,8 +52,7 @@ class GoogleDriveIntegration
     folder_search = nil
     begin
       folder_search = drive.list_files(q: "mimeType='#{folder_mime}' and name='#{folder_name}'")
-    rescue Exception => e
-      puts "\n\n find_or_create_folder exception: #{e}\n\n"
+    rescue StandardError => _e
       return
     end
 
@@ -82,8 +81,6 @@ class GoogleDriveIntegration
 
     file = drive.create_file({:name => params[:name], :parents => [folder.id]}, upload_source: tmp.path, content_type: "application/json")
 
-    puts "Saved file to GD: #{file}"
-
     return {:file_id => file.id}
   end
 
@@ -99,12 +96,8 @@ class GoogleDriveIntegration
   end
 
   def delete_item(metadata)
-    begin
-      file_id = metadata[:file_id]
-      drive.delete_file("#{file_id}")
-    rescue Exception => e
-      puts "Unable to delete Google Drive file because #{e}"
-    end
+    file_id = metadata[:file_id]
+    drive.delete_file("#{file_id}")
   end
 
   private

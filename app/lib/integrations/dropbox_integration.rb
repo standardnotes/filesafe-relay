@@ -38,11 +38,7 @@ class DropboxIntegration
   end
 
   def delete_item(metadata)
-    begin
-      dropbox.delete("#{metadata[:file_path]}")
-    rescue Exception => e
-      puts "Unable to delete Dropbox file because #{e}"
-    end
+    dropbox.delete("#{metadata[:file_path]}")
   end
 
   private

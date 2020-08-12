@@ -25,11 +25,7 @@ class AwsS3Integration
   end
 
   def delete_item(metadata)
-    begin
-      bucket.object(metadata[:obj_key]).delete
-    rescue Exception => e
-      puts "Unable to delete AWS S3 file because #{e}"
-    end
+    bucket.object(metadata[:obj_key]).delete
   end
 
   def bucket
