@@ -100,9 +100,8 @@ class IntegrationsController < ApplicationController
       else
         redirect_to controller: "integrations", action: 'integration_complete', authorization: @authorization, source: @integration_name
       end
-    rescue Exception => e
+    rescue StandardError => e
       @error = e
-      puts "Oauth Redirect exception: #{e}"
     end
   end
 
