@@ -67,8 +67,6 @@ class DropboxIntegration
 
   def delete_item(metadata)
     dropbox.delete(metadata[:file_path])
-
-    head :no_content
   end
 
   private
