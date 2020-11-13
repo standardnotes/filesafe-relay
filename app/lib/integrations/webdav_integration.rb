@@ -12,19 +12,19 @@ class WebdavIntegration
   end
 
   def save_item(params)
-    payload = { "items" => [params[:item]] }
-    payload["auth_params"] = params[:auth_params]
+    Rails.logger.info 'Saving file to WebDAV'
 
-    file_path = "#{params[:name]}"
-    dir = @auth_params["dir"]
-    if dir && dir.length > 0
-      file_path = "#{dir}/#{params[:name]}"
-    end
+    payload = { items: [params[:item]] }
+    payload['auth_params'] = params[:auth_params]
+
+    file_path = params[:name]
+    dir = @auth_params['dir']
+    file_path = "#{dir}/#{params[:name]}" if dir&.length&.positive?
 
     file_path = URI::encode(file_path)
-    self.dav.put_string(file_path, JSON.pretty_generate(payload.as_json))
+    dav.put_string(file_path, JSON.pretty_generate(payload.as_json))
 
-    return {:file_path => file_path}
+    { file_path: file_path }
   end
 
   def download_item(metadata = {})

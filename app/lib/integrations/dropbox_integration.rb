@@ -26,10 +26,18 @@ class DropboxIntegration
   end
 
   def save_item(params)
-    payload = { "items" => [params[:item]] }
-    payload["auth_params"] = params[:auth_params]
-    metadata = dropbox.upload("/#{params[:name]}", "#{JSON.pretty_generate(payload.as_json)}", {:mode => "overwrite"})
-    return {:file_path => metadata.path_lower}
+    Rails.logger.info 'Saving file to Dropbox'
+
+    payload = { items: [params[:item]] }
+    payload['auth_params'] = params[:auth_params]
+
+    metadata = dropbox.upload(
+      "/#{params[:name]}",
+      JSON.pretty_generate(payload.as_json),
+      mode: 'overwrite'
+    )
+
+    { file_path: metadata.path_lower }
   end
 
   def download_item(metadata)
