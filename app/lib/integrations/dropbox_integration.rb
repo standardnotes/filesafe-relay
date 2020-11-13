@@ -1,4 +1,7 @@
+require 'dropbox'
+
 class DropboxIntegration
+  FILE_READ_CHUNK_SIZE_BYTES = 512_000
 
   def initialize(params = {})
     @token = params[:authorization]
@@ -31,11 +34,28 @@ class DropboxIntegration
     payload = { items: [params[:item]] }
     payload['auth_params'] = params[:auth_params]
 
-    metadata = dropbox.upload(
+    tmp_file = Tempfile.new(SecureRandom.hex)
+    tmp_file.write(JSON.pretty_generate(payload.as_json))
+    tmp_file.rewind
+
+    dropbox_upload_session_cursor = @dropbox.start_upload_session('')
+
+    File.open(tmp_file.path) do |file|
+      @dropbox.append_upload_session(
+        dropbox_upload_session_cursor,
+        file.read(FILE_READ_CHUNK_SIZE_BYTES)
+      ) until file.eof?
+    end
+
+    metadata = @dropbox.finish_upload_session(
+      dropbox_upload_session_cursor,
       "/#{params[:name]}",
-      JSON.pretty_generate(payload.as_json),
+      '',
       mode: 'overwrite'
     )
+
+    tmp_file.close
+    tmp_file.unlink
 
     { file_path: metadata.path_lower }
   end
@@ -52,17 +72,12 @@ class DropboxIntegration
   private
 
   def dropbox
-    if @dropbox
-      return @dropbox
-    end
+    return @dropbox if @dropbox
 
-    require 'dropbox'
     @dropbox = Dropbox::Client.new(@token)
   end
 
   def get_access_key(auth_code, redirect)
-    require 'dropbox'
-
     url = "https://api.dropboxapi.com/1/oauth2/token"
     request_params = {
       :code => auth_code,
