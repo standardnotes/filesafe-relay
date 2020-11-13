@@ -38,16 +38,16 @@ class DropboxIntegration
     tmp_file.write(JSON.pretty_generate(payload.as_json))
     tmp_file.rewind
 
-    dropbox_upload_session_cursor = @dropbox.start_upload_session('')
+    dropbox_upload_session_cursor = dropbox.start_upload_session('')
 
     File.open(tmp_file.path) do |file|
-      @dropbox.append_upload_session(
+      dropbox.append_upload_session(
         dropbox_upload_session_cursor,
         file.read(FILE_READ_CHUNK_SIZE_BYTES)
       ) until file.eof?
     end
 
-    metadata = @dropbox.finish_upload_session(
+    metadata = dropbox.finish_upload_session(
       dropbox_upload_session_cursor,
       "/#{params[:name]}",
       '',
@@ -66,7 +66,9 @@ class DropboxIntegration
   end
 
   def delete_item(metadata)
-    dropbox.delete("#{metadata[:file_path]}")
+    dropbox.delete(metadata[:file_path])
+
+    head :no_content
   end
 
   private
