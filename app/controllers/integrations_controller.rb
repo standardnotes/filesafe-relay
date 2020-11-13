@@ -84,6 +84,8 @@ class IntegrationsController < ApplicationController
   def delete_item
     metadata = params[:metadata]
     @integration.delete_item(metadata)
+
+    head :no_content
   rescue StandardError => e
     Rails.logger.error "Could not delete item: #{e.message}"
 
