@@ -18,9 +18,9 @@ class IntegrationsController < ApplicationController
 
   def get_integration_name_from_params
     if params[:metadata]
-      return params[:metadata][:source]
+      params[:metadata][:source]
     elsif params[:source] || session[:source]
-      return params[:source] || session[:source]
+      params[:source] || session[:source]
     end
   end
 
@@ -42,16 +42,18 @@ class IntegrationsController < ApplicationController
   end
 
   def save_item
-    metadata = @integration.save_item({
+    metadata = @integration.save_item(
       name: params[:file][:name],
       item: params[:file][:item],
-      auth_params: params[:file][:auth_params],
-    })
+      auth_params: params[:file][:auth_params]
+    )
 
-    metadata[:source] = get_integration_name_from_params()
+    metadata[:source] = get_integration_name_from_params
 
-    render :json => {:metadata => metadata}
-  rescue StandardError => _e
+    render json: { metadata: metadata }
+  rescue StandardError => e
+    Rails.logger.error "Could not save item: #{e.message}"
+
     render(
       json: {
         error: {
@@ -66,7 +68,9 @@ class IntegrationsController < ApplicationController
     metadata = params[:metadata]
     body, file_name = @integration.download_item(metadata)
     send_data body, filename: file_name
-  rescue StandardError => _e
+  rescue StandardError => e
+    Rails.logger.error "Could not download item: #{e.message}"
+
     render(
       json: {
         error: {
@@ -80,7 +84,9 @@ class IntegrationsController < ApplicationController
   def delete_item
     metadata = params[:metadata]
     @integration.delete_item(metadata)
-  rescue StandardError => _e
+  rescue StandardError => e
+    Rails.logger.error "Could not delete item: #{e.message}"
+
     render(
       json: {
         error: {
