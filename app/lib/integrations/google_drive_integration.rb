@@ -70,18 +70,24 @@ class GoogleDriveIntegration
   end
 
   def save_item(params)
-    payload = { "items" => [params[:item]] }
-    payload["auth_params"] = params[:auth_params]
+    Rails.logger.info 'Saving file to Google Drive'
+
+    payload = { items: [params[:item]] }
+    payload['auth_params'] = params[:auth_params]
 
     tmp = Tempfile.new(SecureRandom.hex)
-    tmp.write("#{JSON.pretty_generate(payload.as_json)}")
+    tmp.write(JSON.pretty_generate(payload.as_json))
     tmp.rewind
 
-    folder = find_or_create_folder("FileSafe")
+    folder = find_or_create_folder('FileSafe')
 
-    file = drive.create_file({:name => params[:name], :parents => [folder.id]}, upload_source: tmp.path, content_type: "application/json")
+    file = drive.create_file(
+      { name: params[:name], parents: [folder.id] },
+      upload_source: tmp.path,
+      content_type: 'application/json'
+    )
 
-    return {:file_id => file.id}
+    { file_id: file.id }
   end
 
   def download_item(metadata)

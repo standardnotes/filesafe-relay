@@ -12,11 +12,16 @@ class AwsS3Integration
   end
 
   def save_item(params)
-    payload = { "items" => [params[:item]] }
-    payload["auth_params"] = params[:auth_params]
+    Rails.logger.info 'Saving file to S3'
+
+    payload = { items: [params[:item]] }
+    payload['auth_params'] = params[:auth_params]
+
     obj_key = "FileSafe/#{params[:name]}"
+
     bucket.object(obj_key).put(body: JSON.pretty_generate(payload.as_json))
-    return {:obj_key => obj_key}
+
+    { obj_key: obj_key }
   end
 
   def download_item(metadata = {})
