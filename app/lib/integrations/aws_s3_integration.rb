@@ -36,6 +36,7 @@ class AwsS3Integration
   def bucket
     @bucket ||= begin
       s3 = Aws::S3::Resource.new({
+        endpoint: @auth_params["endpoint"],
         region: @auth_params["region"],
         credentials: Aws::Credentials.new(@auth_params["key"], @auth_params["secret"])
       })

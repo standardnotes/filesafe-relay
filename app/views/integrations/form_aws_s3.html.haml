@@ -2,6 +2,7 @@
   .sk-panel-form
     = form_tag({controller: "integrations", :action => "submit_form"}, :method => "post") do
       = fields_for :auth_data do |ad|
+        = ad.text_field :endpoint, :placeholder => "S3 Compatible Endpoint (optional)", :class => "sk-input contrast"
         = ad.text_field :region, :placeholder => "Region, e.g., eu-central-1", :required => true, :class => "sk-input contrast"
         = ad.text_field :bucket, :placeholder => "S3 Bucket", :required => true, :class => "sk-input contrast"
         = ad.text_field :key, :placeholder => "Access Key ID", :required => true, :class => "sk-input contrast"
