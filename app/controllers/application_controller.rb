@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
     @dropbox_link = "/integrations/link?source=dropbox"
     @google_drive_link = "/integrations/link?source=google_drive"
     @webdav_link = "/integrations/link?source=webdav"
-    @aws_s3_link = "/integrations/link?source=AWS_S3"
+    @s3_link = "/integrations/link?source=AWS_S3"
   end
 
   def route_not_found
