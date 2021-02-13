@@ -2,10 +2,13 @@
   .sk-panel-form
     = form_tag({controller: "integrations", :action => "submit_form"}, :method => "post") do
       = fields_for :auth_data do |ad|
+        Provider: 
+        - opts ||= [["AWS S3", ""], ["Scaleway Object Storage", "SCW"], ["Backblaze B2", "BB2"]]
+        = ad.select :endpoint, options_for_select(opts)
         = ad.text_field :region, :placeholder => "Region, e.g., eu-central-1", :required => true, :class => "sk-input contrast"
-        = ad.text_field :bucket, :placeholder => "S3 Bucket", :required => true, :class => "sk-input contrast"
-        = ad.text_field :key, :placeholder => "Access Key ID", :required => true, :class => "sk-input contrast"
-        = ad.password_field :secret, :placeholder => "Access Key Secret", :required => true, :class => "sk-input contrast"
+        = ad.text_field :bucket, :placeholder => "Bucket Name", :required => true, :class => "sk-input contrast"
+        = ad.text_field :key, :placeholder => "Access Key", :required => true, :class => "sk-input contrast"
+        = ad.password_field :secret, :placeholder => "Secret Key", :required => true, :class => "sk-input contrast"
       .sk-panel-row
       = submit_tag "Submit", :class => "sk-button info "
   .sk-panel-row

@@ -1,6 +1,6 @@
 require 'aws-sdk-s3'
 
-class AwsS3Integration
+class S3Integration
   def initialize(params = {})
     if params[:authorization]
       @auth_params = JSON.parse(Base64.decode64(params[:authorization]))
@@ -34,8 +34,17 @@ class AwsS3Integration
   end
 
   def bucket
+    ep = ""
+    case @auth_params["endpoint"]
+    when "SCW"
+      ep = "https://s3.%s.scw.cloud" % [@auth_params["region"]]
+    when "BB2"
+      ep = "https://s3.%s.backblazeb2.com" % [@auth_params["region"]]
+    end
+
     @bucket ||= begin
       s3 = Aws::S3::Resource.new({
+        endpoint: ep,
         region: @auth_params["region"],
         credentials: Aws::Credentials.new(@auth_params["key"], @auth_params["secret"])
       })
