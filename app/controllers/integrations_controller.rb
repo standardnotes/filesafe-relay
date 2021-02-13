@@ -10,7 +10,7 @@ class IntegrationsController < ApplicationController
         @integration = GoogleDriveIntegration.new(:authorization => params[:authorization])
       elsif integration_name == "webdav"
         @integration = WebdavIntegration.new(:authorization => params[:authorization])
-      elsif integration_name === "AWS_S3"
+      elsif integration_name === "S3"
         @integration = S3Integration.new(:authorization => params[:authorization])
       end
     end
