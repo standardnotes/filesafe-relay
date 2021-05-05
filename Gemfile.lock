@@ -99,7 +99,6 @@ GEM
     declarative (0.0.20)
     declarative-option (0.1.0)
     diff-lcs (1.4.4)
-    dogstatsd-ruby (4.8.1)
     domain_name (0.5.20190701)
       unf (>= 0.0.5, < 1.0.0)
     dotenv (2.7.5)
@@ -332,7 +331,6 @@ DEPENDENCIES
   capistrano-sidekiq
   capybara (~> 2.13)
   curb
-  dogstatsd-ruby (~> 4.8)
   dotenv-rails
   dropbox-sdk-v2
   google-api-client
