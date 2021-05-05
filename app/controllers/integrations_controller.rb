@@ -11,7 +11,7 @@ class IntegrationsController < ApplicationController
       elsif integration_name == "webdav"
         @integration = WebdavIntegration.new(:authorization => params[:authorization])
       elsif integration_name === "AWS_S3"
-        @integration = S3Integration.new(:authorization => params[:authorization])
+        @integration = AwsS3Integration.new(:authorization => params[:authorization])
       end
     end
   }
