@@ -17,7 +17,6 @@ Rails.application.configure do
   end
 
   config.colorize_logging = false
-  config.logger.formatter = StandardNotesFormatter.new
 
   # Show full error reports.
   config.consider_all_requests_local = true

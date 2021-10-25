@@ -18,7 +18,6 @@ Rails.application.configure do
   end
 
   config.colorize_logging = false
-  config.logger.formatter = StandardNotesFormatter.new
 
   # Full error reports are disabled and caching is turned on.
   config.consider_all_requests_local       = false
