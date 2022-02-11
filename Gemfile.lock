@@ -192,7 +192,8 @@ GEM
       sprockets (>= 2.0)
     os (1.1.0)
     public_suffix (4.0.6)
-    puma (3.12.6)
+    puma (4.3.11)
+      nio4r (~> 2.0)
     rack (2.2.3)
     rack-cors (1.1.1)
       rack (>= 2.0.0)
@@ -340,7 +341,7 @@ DEPENDENCIES
   net_dav
   newrelic_rpm (~> 7.0)
   non-stupid-digest-assets
-  puma (~> 3.12)
+  puma (~> 4.3)
   rack-cors
   rails (~> 5.1.5)
   rspec-rails (~> 4.0)
