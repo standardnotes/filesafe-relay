@@ -16,7 +16,7 @@ jobs:
       with:
         ruby-version: 2.6
     - name: Install libcurl
-      run: sudo apt-get update --fix-missing && apt-get install libcurl4-openssl-dev
+      run: sudo apt-get update --fix-missing && sudo apt-get install libcurl4-openssl-dev
     - name: Copy default configuration
       run: cp .env.sample .env
     - name: Install dependencies
