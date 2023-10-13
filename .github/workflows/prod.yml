@@ -88,6 +88,6 @@ jobs:
       uses: aws-actions/amazon-ecs-deploy-task-definition@v1
       with:
         task-definition: ${{ steps.task-def.outputs.task-definition }}
-        service: filesafe-relay-prod
+        service: filesafe-relay
         cluster: prod
         wait-for-service-stability: true
